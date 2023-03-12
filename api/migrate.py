@@ -3,9 +3,9 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.pool import NullPool
 
 from api.models import Base
+from api.config import DB_URL
 
 
-DB_URL = "{}://{}:{}@{}:{}/{}".format("postgresql+asyncpg", "postgres", "postgres", "localhost", "15432", "postgres")
 async_engine = create_async_engine(DB_URL, echo=True, poolclass=NullPool)
 
 
@@ -15,5 +15,5 @@ async def _reset() -> None:
         await connection.run_sync(Base.metadata.create_all)
 
 
-def reset() -> None:
+def run() -> None:
     asyncio.run(_reset())
